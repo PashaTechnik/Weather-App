@@ -9,23 +9,29 @@ import UIKit
 
 class MainViewController: UIViewController {
 
+    @IBOutlet weak var weatherTableView: UITableView!
+    
     lazy var viewModel = {
         WeatherViewModel()
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-    
-    func initViewModel() {
-        // Get employees data
-        viewModel.getEmployees()
+        initViewModel()
         
-        // Reload TableView closure
+        weatherTableView.delegate = self
+        weatherTableView.dataSource = self
+        
+    }
+
+    func initViewModel() {
+        
+        viewModel.getForecast()
+        viewModel.initLocationManager()
+        
         viewModel.reloadTableView = { [weak self] in
             DispatchQueue.main.async {
-                self?.tableView.reloadData()
+                self?.weatherTableView.reloadData()
             }
         }
     }
@@ -34,18 +40,18 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 130
+        return 80
     }
 }
 
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.employeeCellViewModels.count
+        return viewModel.weatherCellViewModels.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: EmployeeCell.identifier, for: indexPath) as? EmployeeCell else { fatalError("xib does not exists") }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherCell.identifier, for: indexPath) as? WeatherCell else { return UITableViewCell() }
         let cellVM = viewModel.getCellViewModel(at: indexPath)
         cell.cellViewModel = cellVM
         return cell

@@ -24,3 +24,15 @@ extension Array where Element: Dated {
         return groupedByDateComponents
     }
 }
+
+
+extension Collection {
+    func mostFrequent() -> Self.Element?
+    where Self.Element: Hashable {
+        let counts = self.reduce(into: [:]) {
+            return $0[$1, default: 0] += 1
+        }
+
+        return counts.max(by: { $0.1 < $1.1 })?.key
+    }
+}
