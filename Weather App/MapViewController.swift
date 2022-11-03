@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MapViewController.swift
 //  Weather App
 //
 //  Created by Pasha on 01.11.2022.
@@ -10,12 +10,21 @@ import MapKit
 
 class MapViewController: UIViewController {
     private let reuseIdentifier = "MyIdentifier"
-    private let loccationManager: CLLocationManager = CLLocationManager()
+    private let locationManager: CLLocationManager = CLLocationManager()
     @IBOutlet weak var mapView: MKMapView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapView.delegate = self
+        
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = kCLDistanceFilterNone
+        locationManager.startUpdatingLocation()
+        mapView.showsUserLocation = true
+        
+        print(mapView.userLocation.coordinate)
+
         
         addGestureRecognizer()
     }

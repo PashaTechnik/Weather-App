@@ -2,10 +2,12 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5VF-pj-2OU">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -43,6 +45,7 @@
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_white_day_rain" translatesAutoresizingMaskIntoConstraints="NO" id="Wbk-xW-xvz">
                                         <rect key="frame" x="15" y="183.5" width="165.5" height="165.5"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Wbk-xW-xvz" secondAttribute="height" multiplier="1:1" id="sIY-Ki-vEv"/>
                                         </constraints>
@@ -114,20 +117,89 @@
                                     <constraint firstItem="im2-Em-VTn" firstAttribute="leading" secondItem="gCJ-Cv-HOR" secondAttribute="leading" constant="15" id="xrf-S2-91A"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="maB-D3-ugh">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SrJ-6Z-5bu">
+                                <rect key="frame" x="0.0" y="499" width="414" height="397"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="weatherCell" rowHeight="69" id="AH7-V0-Yyq" customClass="WeatherCell" customModule="Weather_App" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="69"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AH7-V0-Yyq" id="Yow-d1-Jkq">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="69"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="чт" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kaq-ju-azt">
+                                                    <rect key="frame" x="25" y="18.5" width="26" height="32"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27/34" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hh7-7j-gge">
+                                                    <rect key="frame" x="172.5" y="18.5" width="69" height="32"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_white_day_shower" translatesAutoresizingMaskIntoConstraints="NO" id="Lsg-xT-VJb">
+                                                    <rect key="frame" x="358" y="16.5" width="36" height="36"/>
+                                                    <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Lsg-xT-VJb" firstAttribute="centerY" secondItem="Yow-d1-Jkq" secondAttribute="centerY" id="34l-ps-asC"/>
+                                                <constraint firstAttribute="trailing" secondItem="Lsg-xT-VJb" secondAttribute="trailing" constant="20" symbolic="YES" id="9D1-Wo-f6z"/>
+                                                <constraint firstItem="Hh7-7j-gge" firstAttribute="centerX" secondItem="Yow-d1-Jkq" secondAttribute="centerX" id="ZGV-a8-wEk"/>
+                                                <constraint firstItem="Hh7-7j-gge" firstAttribute="centerY" secondItem="Yow-d1-Jkq" secondAttribute="centerY" id="px6-Pl-k0C"/>
+                                                <constraint firstItem="kaq-ju-azt" firstAttribute="leading" secondItem="Yow-d1-Jkq" secondAttribute="leadingMargin" constant="5" id="raP-FG-Bfv"/>
+                                                <constraint firstItem="kaq-ju-azt" firstAttribute="centerY" secondItem="Yow-d1-Jkq" secondAttribute="centerY" id="x4u-Bt-5m9"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dayLabel" destination="kaq-ju-azt" id="B48-nV-Fri"/>
+                                            <outlet property="temperatureLabel" destination="Hh7-7j-gge" id="PPy-iT-wIf"/>
+                                            <outlet property="weatherImage" destination="Lsg-xT-VJb" id="Clz-iP-X9y"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3PQ-uR-Kxa">
                                 <rect key="frame" x="0.0" y="371" width="414" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" name="Color"/>
-                            </view>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="xUw-y3-yum">
+                                    <size key="itemSize" width="73" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="w4a-BP-Lib">
+                                        <rect key="frame" x="0.0" y="0.0" width="73" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="TTv-gK-4TF">
+                                            <rect key="frame" x="0.0" y="0.0" width="73" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="73" height="128"/>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="gCJ-Cv-HOR" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.414062" id="05C-VU-aUK"/>
                             <constraint firstItem="gCJ-Cv-HOR" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="2Gh-ju-eYs"/>
+                            <constraint firstAttribute="bottom" secondItem="SrJ-6Z-5bu" secondAttribute="bottom" id="6YQ-ev-zhg"/>
+                            <constraint firstItem="SrJ-6Z-5bu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Bfj-xV-Z5h"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="im2-Em-VTn" secondAttribute="top" constant="-20" id="FLQ-66-b9g"/>
+                            <constraint firstItem="SrJ-6Z-5bu" firstAttribute="top" secondItem="3PQ-uR-Kxa" secondAttribute="bottom" id="ROb-EH-7BD"/>
                             <constraint firstItem="gCJ-Cv-HOR" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="TaL-TB-JZg"/>
+                            <constraint firstItem="3PQ-uR-Kxa" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.142857" id="huX-sh-VpB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3PQ-uR-Kxa" secondAttribute="trailing" id="jBj-Qv-wjN"/>
+                            <constraint firstItem="3PQ-uR-Kxa" firstAttribute="top" secondItem="gCJ-Cv-HOR" secondAttribute="bottom" id="pH5-07-OXK"/>
                             <constraint firstItem="gCJ-Cv-HOR" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="saU-Yz-en9"/>
+                            <constraint firstItem="SrJ-6Z-5bu" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="vDQ-Sj-jpl"/>
+                            <constraint firstItem="3PQ-uR-Kxa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="zdf-gA-XLB"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -162,7 +234,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DUn-e5-gXC" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="698.55072463768124" y="66.964285714285708"/>
+            <point key="canvasLocation" x="732" y="67"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="qlm-MY-df0">
@@ -272,6 +344,7 @@
         <image name="ic_search" width="22" height="22"/>
         <image name="ic_temp" width="10" height="20"/>
         <image name="ic_white_day_rain" width="36" height="36"/>
+        <image name="ic_white_day_shower" width="36" height="36"/>
         <image name="ic_wind" width="17" height="19"/>
         <image name="icon_wind_se" width="34" height="34"/>
         <namedColor name="Color">
