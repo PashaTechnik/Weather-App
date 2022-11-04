@@ -33,6 +33,22 @@ struct List: Codable {
         dateFormatter.dateFormat = "EE"
         return dateFormatter.string(from: date)
     }
+    
+    func getHoursFromDate() -> String {
+        let date = Date(timeIntervalSince1970: TimeInterval(dt))
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        return String(hour)
+    }
+    
+    func getLocalizedDateFromDate() -> String {
+        let date = Date(timeIntervalSince1970: TimeInterval(dt))
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        dateFormatter.dateFormat = "EE, d MMMM"
+        return dateFormatter.string(from: date)
+    }
+    
 }
 
 extension List: Dated {

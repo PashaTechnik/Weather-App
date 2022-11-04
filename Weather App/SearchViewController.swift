@@ -28,7 +28,11 @@ class SearchViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
-
+    
+    @IBAction func goBack(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
+    
 }
 
 

@@ -9,9 +9,11 @@ import UIKit
 import MapKit
 
 class MapViewController: UIViewController {
-    private let reuseIdentifier = "MyIdentifier"
+    
     private let locationManager: CLLocationManager = CLLocationManager()
     @IBOutlet weak var mapView: MKMapView!
+    
+    var currentCoordinates: Coord!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,7 +42,6 @@ class MapViewController: UIViewController {
         if gestureRecognizer.state != UIGestureRecognizer.State.ended {
             let touchLocation = gestureRecognizer.location(in: mapView)
             let locationCoordinate = mapView.convert(touchLocation, toCoordinateFrom: mapView)
-            print("Tapped at Latitude: \(locationCoordinate.latitude), Longitude:\(locationCoordinate.longitude)")
             if gestureRecognizer.state != UIGestureRecognizer.State.began {
                 return
             }
@@ -53,6 +54,9 @@ class MapViewController: UIViewController {
 
         }
     }
+    @IBAction func goBack(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
 }
 
 extension MapViewController: MKMapViewDelegate {
@@ -60,6 +64,7 @@ extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         let identifier = "id"
+        currentCoordinates = Coord(lat: annotation.coordinate.latitude, lon: annotation.coordinate.longitude)
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
         if annotationView == nil {
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
@@ -76,7 +81,9 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     @objc func getWeather() {
-        print("dddcdc")
+        navigationController?.popViewController(animated: true)
+        let vc = navigationController?.topViewController as! MainViewController
+        vc.userCoordinates = currentCoordinates
     }
 
 }
