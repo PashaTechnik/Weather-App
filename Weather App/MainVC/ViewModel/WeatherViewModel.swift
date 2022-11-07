@@ -32,7 +32,6 @@ class WeatherViewModel: NSObject {
         }
     }
     
-    //var weatherModel: WeatherModel!
     var weatherModel: Dynamic<WeatherModel?> = Dynamic(nil)
     
     init(networkManager: NetworkManagerProtocol = NetworkManager()) {
@@ -51,17 +50,23 @@ class WeatherViewModel: NSObject {
         }
     }
     
-    func getForecast(coord: Coord?) {
+    func getForecastWithCoord(coord: Coord?) {
         
         if coord == nil {
             guard let locValue: CLLocationCoordinate2D = locationManager.location?.coordinate else { return }
-            networkManager.loadForecast(lat: locValue.latitude, lon: locValue.longitude) { result in
+            networkManager.loadForecastWithCoord(lat: locValue.latitude, lon: locValue.longitude) { result in
                 self.fetchData(result: result)
             }
         } else {
-            networkManager.loadForecast(lat: coord!.lat, lon: coord!.lon) { result in
+            networkManager.loadForecastWithCoord(lat: coord!.lat, lon: coord!.lon) { result in
                 self.fetchData(result: result)
             }
+        }
+    }
+    
+    func getForecastWithCity(city: String) {
+        networkManager.loadForecastWithCity(city: city) { result in
+            self.fetchData(result: result)
         }
     }
     
@@ -80,7 +85,7 @@ class WeatherViewModel: NSObject {
             let day = forecast.value.first!.getDayFromDate()
             let min = forecast.value.map { $0.main.tempMin }.min()!
             let max = forecast.value.map { $0.main.tempMax }.max()!
-            let icon = forecast.value.map({ $0.weather.first!.icon }).filter({ !$0.contains("n") }).mostFrequent()!
+            let icon = forecast.value.map({ $0.weather.first!.icon }).filter({ !$0.contains("n") }).mostFrequent() ?? "02d"
             
             weatherCellViewModel.append(WeatherCellViewModel(forecast: WeatherCellModel(day: day, minTemperature: min, maxTemperature: max, icon: icon)))
         }

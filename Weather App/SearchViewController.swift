@@ -14,7 +14,7 @@ class SearchViewController: UIViewController {
     
     private let placesClient = GMSPlacesClient()
     
-    private var placesResult: [String] = [] {
+    private var placesResult: [GMSAutocompletePrediction] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -24,22 +24,18 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        textField.delegate = self
+        
         tableView.delegate = self
         tableView.dataSource = self
+        
+        textField.addTarget(nil, action: #selector(textFieldDidChange), for: .editingChanged)
     }
     
-    @IBAction func goBack(_ sender: Any) {
+    @IBAction func goBack() {
         navigationController?.popViewController(animated: true)
     }
     
-}
-
-
-extension SearchViewController: UITextFieldDelegate {
-    
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        //tableDataSource.sourceTextHasChanged(textField.text)
+    @objc func textFieldDidChange() {
         let token = GMSAutocompleteSessionToken.init()
         
         let filter = GMSAutocompleteFilter()
@@ -55,12 +51,15 @@ extension SearchViewController: UITextFieldDelegate {
             if let results = results {
                 self.placesResult = []
                 for result in results {
-                    self.placesResult.append(result.attributedFullText.string)
+                    self.placesResult.append(result)
                 }
             }
         })
+
     }
+    
 }
+
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,8 +68,15 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: LocationCell.identifier) as! LocationCell
-        cell.locationLabel.text = placesResult[indexPath.row]
+        cell.locationLabel.text = placesResult[indexPath.row].attributedFullText.string
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cityName = placesResult[indexPath.row].attributedPrimaryText.string
+        navigationController?.popViewController(animated: true)
+        let vc = navigationController?.topViewController as! MainViewController
+        vc.city = cityName
     }
     
     

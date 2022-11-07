@@ -28,7 +28,21 @@ class MainViewController: UIViewController {
     
     var userCoordinates: Coord? = nil {
         didSet {
-            initViewModel()
+            viewModel.getForecastWithCoord(coord: userCoordinates)
+        }
+    }
+    
+    var city: String? = nil {
+        didSet {
+            viewModel.getForecastWithCity(city: city!)
+        }
+    }
+    
+    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
+        if toInterfaceOrientation == .landscapeLeft || toInterfaceOrientation == .landscapeRight {
+            weatherIcon.isHidden = true
+        } else {
+            weatherIcon.isHidden = false
         }
     }
     
@@ -45,7 +59,7 @@ class MainViewController: UIViewController {
 
     func initViewModel() {
         
-        viewModel.getForecast(coord: userCoordinates)
+        viewModel.getForecastWithCoord(coord: userCoordinates)
         viewModel.initLocationManager()
         
         viewModel.reloadTableView = { [weak self] in
@@ -73,6 +87,11 @@ class MainViewController: UIViewController {
         }
         
     }
+    @IBAction func goToSearch(_ sender: Any) {
+        let vc = storyboard?.instantiateViewController(identifier: "SearchVC") as! SearchViewController
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }
 
 
