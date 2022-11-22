@@ -21,6 +21,8 @@ class MainViewController: UIViewController {
     @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
+    @IBOutlet weak var darkView: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     lazy var viewModel = {
         WeatherViewModel()
@@ -56,6 +58,12 @@ class MainViewController: UIViewController {
         dayWeatherCollectionView.delegate = self
         dayWeatherCollectionView.dataSource = self
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        darkView.isHidden = false
+    }
 
     func initViewModel() {
         
@@ -74,15 +82,19 @@ class MainViewController: UIViewController {
             }
         }
         
-        viewModel.weatherModel.bind { weatherModel in
+        viewModel.weatherModel.bind { [weak self] weatherModel in
+            guard let self = self else { return }
+            guard let weatherModel = weatherModel else { return }
             DispatchQueue.main.async {
-                self.dateLabel.text = weatherModel?.date
-                self.cityNameLabel.text = weatherModel?.city
-                self.humidityValueLabel.text = weatherModel?.humidity
-                self.temperatureValueLabel.text = "\(String(Int(weatherModel!.minTemperature)))° / \(String(Int(weatherModel!.maxTemperature)))°"
-                self.weatherIcon.image = UIImage(named: Utilities.iconDict[weatherModel!.icon, default: "ic_white_day_bright"]) ?? UIImage()
-                self.windLabel.text = weatherModel?.windSpeed
-                self.windDirection.image = UIImage(named: weatherModel!.windDirection)
+                self.activityIndicator.stopAnimating()
+                self.darkView.isHidden = true
+                self.dateLabel.text = weatherModel.date
+                self.cityNameLabel.text = weatherModel.city
+                self.humidityValueLabel.text = weatherModel.humidity
+                self.temperatureValueLabel.text = "\(String(Int(weatherModel.minTemperature)))° / \(String(Int(weatherModel.maxTemperature)))°"
+                self.weatherIcon.image = UIImage(named: Utilities.iconDict[weatherModel.icon, default: "ic_white_day_bright"]) ?? UIImage()
+                self.windLabel.text = weatherModel.windSpeed
+                self.windDirection.image = UIImage(named: weatherModel.windDirection)
             }
         }
         

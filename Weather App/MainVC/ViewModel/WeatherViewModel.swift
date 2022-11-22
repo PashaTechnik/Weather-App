@@ -83,8 +83,8 @@ class WeatherViewModel: NSObject {
         
         for forecast in forecasts {
             let day = forecast.value.first!.getDayFromDate()
-            let min = forecast.value.map { $0.main.tempMin }.min()!
-            let max = forecast.value.map { $0.main.tempMax }.max()!
+            let min = forecast.value.map { $0.main.tempMin }.min() ?? 0
+            let max = forecast.value.map { $0.main.tempMax }.max() ?? 0
             let icon = forecast.value.map({ $0.weather.first!.icon }).filter({ !$0.contains("n") }).mostFrequent() ?? "02d"
             
             weatherCellViewModel.append(WeatherCellViewModel(forecast: WeatherCellModel(day: day, minTemperature: min, maxTemperature: max, icon: icon)))
@@ -107,7 +107,11 @@ class WeatherViewModel: NSObject {
     }
     
     func initWeatherModel() {
-        let forecast = forecastResult.list.first!
+        guard let forecast = forecastResult.list.first
+        else {
+            weatherModel.value = nil
+            return
+        }
         
         let date = forecast.getLocalizedDateFromDate()
         let icon = forecast.weather.first!.icon
@@ -133,5 +137,5 @@ class WeatherViewModel: NSObject {
 }
 
 extension WeatherViewModel: CLLocationManagerDelegate {
-
+    
 }
